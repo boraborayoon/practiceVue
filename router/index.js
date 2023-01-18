@@ -3,6 +3,8 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue"; 
 import Register from "../views/Register.vue"; 
 import Settings from "../views/Settings.vue";
+import Profile from '../views/Profile.vue';
+
 const routes = [
  {
      path: "/",
@@ -23,7 +25,12 @@ const routes = [
       path: "/settings",
       name: "Settings",
       component: Settings
-    } 
+    },
+    {
+      path: "/:username",
+      name: "Profile",
+      component: Profile
+    }
 ]; 
 const router = createRouter({ 
   history: createWebHashHistory(),

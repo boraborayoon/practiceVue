@@ -12,11 +12,9 @@
        </a>        
       </li>       
       <li class="nav-item">         
-       <a class="nav-link" href="">
          <router-link class="nav-link" :to="{name : 'Settings'}">
             <i class="ion-gear-a"></i>&nbsp;Settings
           </router-link>
-       </a>
       </li>
       <li v-if="username == null" class="nav-item">
         <router-link class="nav-link" to="/register"> Register </router-link>

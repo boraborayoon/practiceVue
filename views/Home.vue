@@ -15,15 +15,31 @@
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
               <li class="nav-item">
-                <a class="nav-link disabled" href="">Your Feed</a>
+                <a
+                  class="nav-link"
+                  v-if="username"
+                  @click="setFeed('user');"
+                  :class="{ active: activeFeed === 'user' }"
+                >
+                  Your Feed
+                </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="">Global Feed</a>
+                <a
+                  class="nav-link"
+                  @click="setFeed('global');"
+                  :class="{ active: activeFeed === 'global' }"
+                >
+                  Global Feed
+                </a>
               </li>
             </ul>
           </div>
-        
-
+          <ArticlePreview
+                v-for="article in globalArticles"
+                :key="article.slug"
+                :article="article"
+          ></ArticlePreview>
           <div class="article-preview">
             <div class="article-meta">
               <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
@@ -78,7 +94,7 @@
               <a href="" class="tag-pill tag-default">dart</a>
               <a href="" class="tag-pill tag-default">cryto</a>
             </div>
-          </div>
+          </div> 
         </div>
 
       </div>
@@ -88,3 +104,40 @@
   </div>
 
 </template>
+
+<script>
+import ArticlePreview from '../src/components/ArticalPreview.vue';
+export default {
+
+  components: {
+    ArticlePreview
+  },
+  data: function() {
+    return {
+      activeFeed: "global"
+    };
+  },
+  methods: {
+    setFeed(feedType) {
+      if (feedType === "global") {
+        this.activeFeed = "global";
+        this.$store.dispatch("articles/getGlobalFeed");
+      } else if (feedType === "user") {
+        this.activeFeed = "user";
+        this.$store.dispatch("articles/getUserFeed");
+      }
+    }
+  },
+  created() {
+    this.setFeed("global");
+  },
+  computed: {
+    globalArticles() {
+      return this.$store.state.articles.feed || [];
+    },
+    username() {
+      return this.$store.getters["users/username"];
+    }
+  },
+};
+</script>
